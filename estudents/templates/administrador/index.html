@@ -1,0 +1,446 @@
+{% extends 'administrador/base.html' %}
+{% load static %}
+{% block konteudu %}
+
+  <!-- Navbar -->
+
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+ 
+ 
+<!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+  <link rel="stylesheet" href="{% static 'assets/plugins/fontawesome-free/css/all.min.css' %}" />
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'assets/dist/css/adminlte.min.css' %}" />
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet" />
+
+<div class="wrapper">
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-9 mb-3">
+            <h1 class="m-0 text-dark text-center"><b>Bem Vindo {{ profile.user }}</b></h1>
+            <h3 class="m-0 text-dark text-center">Administrador Eskola Nossa Senora do Carmo Lete-Foho</h3>
+            
+            
+            {% if messages %} {% for message in messages %}
+
+            <div class="container">
+              <div class="alert alert-info m-2 alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            </div>            
+            {% endfor %} {% endif %}
+          </div>
+          
+          <!-- /.col -->
+          <div class="col-sm-3">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard v1</li>
+            </ol>
+          </div>
+          <div class="image-fluid">
+            <img src="media/media/noscar.jpg" alt="" width="300" class="rounded">
+          </div>
+          <!-- /.col -->
+           
+        </div>
+        <!-- /.row -->
+       
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+         
+
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3 class="text-dark text-center">{{ total_estu }}</h3>
+
+                <p class="text-center">Total Estudante Ativu 2024</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-user"></i>
+              </div>
+              <a href="{% url 'lista-estudante' %}" class="small-box-footer">Info Klaru <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-dark">
+              <div class="inner">
+                <h3 class="text-white text-center">{{ total_prof }}</h3>
+
+                <p class="text-center">Total Professores 2024</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-user"></i>
+              </div>
+              <a href="{% url 'lista-professor' %}" class="small-box-footer">Info Klaru <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box badge-secondary">
+              <div class="inner">
+                <h3 class="text-dark text-center">{{ sexo_mane }}</h3>
+
+                <p class="text-center">Total Estudante Mane</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-user"></i>
+              </div>
+              <a href="{% url 'lista-estudante' %}" class="small-box-footer">Info Klaru <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3 class="text-dark text-center">{{ sexo_feto }}</h3>
+
+                <p class="text-center">Total Estudante Feto</p>
+              </div>
+              <div class="icon">
+                <i class="ion "></i>
+              </div>
+              <a href="{% url 'lista-estudante' %}" class="small-box-footer">Info Klaru<i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        
+
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3 class="text-dark text-center">{{ prof_feto }}</h3>
+
+                <p class="text-center">Total Professor Feto</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-user-female"></i>
+              </div>
+              <a href="{% url 'lista-professor' %}" class="small-box-footer">Info Klaru<i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3 class="text-dark text-center">{{ prof_mane }}</h3>
+
+                <p class="text-center">Total Professor Mane</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-user-male"></i>
+              </div>
+              <a href="{% url 'lista-professor' %}" class="small-box-footer">Info Klaru <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+        </div>
+   
+          <!-- /.content -->
+
+               
+           
+            <!-- /.card -->
+            <!-- /.card -->
+          </section><br>
+
+          <h3 class="text-center"><b>Grafiku Sira</b></h3><br>
+
+          <section class="content">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-md-6">
+                  <!-- AREA CHART -->
+                  <div class="card card-primary">
+                    <div class="card-header">
+                      <h3 class="card-title">Total Estudante Kada Municpio </h3>
+  
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div class="chart">
+                        <canvas id="areaChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%"></canvas>
+                      </div>
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+                  <!-- /.card -->
+  
+                  <!-- DONUT CHART -->
+                  <div class="card card-danger">
+                    <div class="card-header">
+                      <h3 class="card-title">Total Sexo Kada Estudante</h3>
+  
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%"></canvas>
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+                  <!-- /.card -->
+                </div>
+                <!-- /.col (LEFT) -->
+                <div class="col-md-6">
+                  <!-- LINE CHART -->
+  
+                  <!-- BAR CHART -->
+                  <div class="card card-success">
+                    <div class="card-header">
+                      <h3 class="card-title">Total Estudante Kada Municipio</h3>
+  
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div class="chart">
+                        <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%"></canvas>
+                      </div>
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+                  <!-- /.card -->
+                </div>
+                <!-- /.col (RIGHT) -->
+              </div>
+              <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+          </section>
+        
+          <!-- right col -->
+        </div>
+        <!-- /.row (main row) -->
+      </div>
+
+
+    </div>
+    </section>
+
+   
+    <script src="{% static 'assets/plugins/jquery/jquery.min.js'%}"></script>
+    <!-- ChartJS -->
+    <script src="{% static 'assets/plugins/chart.js/Chart.min.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'assets/dist/js/adminlte.min.js' %}"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="{% static 'assets/dist/js/demo.js' %}"></script>
+
+    <script>
+      $(function () {
+        /* ChartJS
+         * -------
+         * Here we will create a few charts using ChartJS
+         */
+
+        //--------------
+        //- AREA CHART -
+        //--------------
+
+        // Get context with jQuery - using jQuery's .get() method.
+        var areaChartCanvas = $("#areaChart").get(0).getContext("2d");
+
+        var areaChartData = {
+          labels: [{% for municipio in lista_mun %} '{{ municipio }}', {% endfor %}],
+          datasets: [
+            {
+              label: "Municipio",
+              backgroundColor: "rgba(60,141,188,0.9)",
+              borderColor: "rgba(60,141,188,0.8)",
+              pointRadius: false,
+              pointColor: "#3b8bba",
+              pointStrokeColor: "rgba(60,141,188,1)",
+              pointHighlightFill: "#fff",
+              pointHighlightStroke: "rgba(60,141,188,1)",
+              data: [{% for numeru in numeru_mun %} '{{ numeru }}', {% endfor %}],
+            },
+            {
+
+                  },
+          ],
+        };
+
+        var areaChartOptions = {
+          maintainAspectRatio: false,
+          responsive: true,
+          legend: {
+            display: false,
+          },
+          scales: {
+            xAxes: [
+              {
+                gridLines: {
+                  display: false,
+                },
+              },
+            ],
+            yAxes: [
+              {
+                gridLines: {
+                  display: false,
+                },
+              },
+            ],
+          },
+        };
+
+        // This will get the first returned node in the jQuery collection.
+        var areaChart = new Chart(areaChartCanvas, {
+          type: "line",
+          data: areaChartData,
+          options: areaChartOptions,
+        });
+
+        // //-------------
+        // //- LINE CHART -
+        // //--------------
+        // var lineChartCanvas = $("#lineChart").get(0).getContext("2d");
+        // var lineChartOptions = jQuery.extend(true, {}, areaChartOptions);
+        // var lineChartData = jQuery.extend(true, {}, areaChartData);
+        // lineChartData.datasets[0].fill = false;
+        // lineChartData.datasets[1].fill = false;
+        // lineChartOptions.datasetFill = false;
+
+        // var lineChart = new Chart(lineChartCanvas, {
+        //   type: "line",
+        //   data: lineChartData,
+        //   options: lineChartOptions,
+        // });
+
+        //-------------
+        //- DONUT CHART -
+        //-------------
+        // Get context with jQuery - using jQuery's .get() method.
+        var donutChartCanvas = $("#donutChart").get(0).getContext("2d");
+        var donutData = {
+          labels: [{% for sexo in lista_sexo %} '{{ sexo }}', {% endfor %}],
+          datasets: [
+            {
+                label : "Sexo",
+              data: [{% for numeru in numeru_sexo %} '{{ numeru }}', {% endfor %}],
+              backgroundColor: ["#f56954", "#00a65a", "#f39c12", "#00c0ef", "#3c8dbc", "#d2d6de"],
+            },
+          ],
+        };
+        var donutOptions = {
+          maintainAspectRatio: false,
+          responsive: true,
+        };
+        //Create pie or douhnut chart
+        // You can switch between pie and douhnut using the method below.
+        var donutChart = new Chart(donutChartCanvas, {
+          type: "doughnut",
+          data: donutData,
+          options: donutOptions,
+        });
+
+        // //-------------
+        // //- PIE CHART -
+        // //-------------
+        // // Get context with jQuery - using jQuery's .get() method.
+        // var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
+        // var pieData = donutData;
+        // var pieOptions = {
+        //   maintainAspectRatio: false,
+        //   responsive: true,
+        // };
+        // //Create pie or douhnut chart
+        // // You can switch between pie and douhnut using the method below.
+        // var pieChart = new Chart(pieChartCanvas, {
+        //   type: "pie",
+        //   data: pieData,
+        //   options: pieOptions,
+        // });
+
+        //-------------
+        //- BAR CHART -
+        //-------------
+        var barChartCanvas = $("#barChart").get(0).getContext("2d");
+        var barChartData = jQuery.extend(true, {}, areaChartData);
+        var temp0 = areaChartData.datasets[0];
+        var temp1 = areaChartData.datasets[1];
+        barChartData.datasets[0] = temp1;
+        barChartData.datasets[1] = temp0;
+
+        var barChartOptions = {
+          responsive: true,
+          maintainAspectRatio: false,
+          datasetFill: false,
+        };
+
+        var barChart = new Chart(barChartCanvas, {
+          type: "bar",
+          data: barChartData,
+          options: barChartOptions,
+        });
+
+        // //---------------------
+        // //- STACKED BAR CHART -
+        // //---------------------
+        // var stackedBarChartCanvas = $("#stackedBarChart").get(0).getContext("2d");
+        // var stackedBarChartData = jQuery.extend(true, {}, barChartData);
+
+        // var stackedBarChartOptions = {
+        //   responsive: true,
+        //   maintainAspectRatio: false,
+        //   scales: {
+        //     xAxes: [
+        //       {
+        //         stacked: true,
+        //       },
+        //     ],
+        //     yAxes: [
+        //       {
+        //         stacked: true,
+        //       },
+        //     ],
+        //   },
+        // };
+
+        // var stackedBarChart = new Chart(stackedBarChartCanvas, {
+        //   type: "bar",
+        //   data: stackedBarChartData,
+        //   options: stackedBarChartOptions,
+        // });
+      });
+    </script>
+    
+
+    {% endblock %}

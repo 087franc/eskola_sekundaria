@@ -1,0 +1,166 @@
+{% extends 'administrador/base.html' %} {% block konteudu %} {% load static %}
+
+<div class="wrapper">
+  <!-- Navbar -->
+  <link rel="stylesheet" href="{% static 'assets/plugins/datatables-bs4/css/dataTables.bootstrap4.css' %}" />
+  <!-- /.navbar -->
+  <!-- Tell the browser to be responsive to screen width -->
+
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>{{ title }}</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">DataTables</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Dadus Professor Ativu</h3>
+            </div>
+            {% if messages %} {% for message in messages %}
+
+            <div class="container">
+              <div class="alert alert-info m-2 alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            </div>
+            {% endfor %} {% endif %}
+            <!-- /.card-header -->
+            <div class="card-body">
+              <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                <div class="row">
+                  <div class="col-sm-12 col-md-6">
+                    <div class="dataTables_length" id="example1_length">
+                      <!-- <label
+                        >Show
+                        <select name="example1_length" aria-controls="example1" class="custom-select custom-select-sm form-control form-control-sm">
+                          <option value="10">10</option>
+                          <option value="25">25</option>
+                          <option value="50">50</option>
+                          <option value="100">100</option>
+                        </select>
+                        entries</label
+                      > -->
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-md-6">
+                    <div id="example1_filter" class="dataTables_filter">
+                      <div class="aumenta">
+                        <a href="{% url 'lista-professor-aumenta' %}" class="btn btn-info m-2">aumenta</a>
+                      </div>
+                      <!-- <label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="example1" /> </label> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                      <thead>
+                        <tr role="row">
+                          <th>No</th>
+                          <th>Naran</th>
+                          <th>Sexo</th>
+                          <th>No Telefone</th>
+                          <th>Email</th>
+                          <th>Hela Fatin</th>
+                          <th>Municipio</th>
+                          <th>Materia</th>
+                          <th>Foto</th>
+                          <th>Aksaun</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        {% for data in dadus %}
+                        <tr role="row" class="odd">
+                          <td>{{ forloop.counter }}</td>
+                          <td>{{ data.naran }}</td>
+                          <td>{{ data.sexo }}</td>
+                          <td>{{ data.no_telefone }}</td>
+                          <td>{{ data.email }}</td>
+                          <td>{{ data.hela_fatin }}</td>
+                          <td>{{ data.municipio }}</td>
+                          <td>{{ data.materia }}</td>
+                          <td>{% if data.foto %}<img src="{{data.foto.url}}" width="50px" height="50px" />{%endif%}</td>
+                          <td>
+                            <a href="{% url 'lista-professor-hadia' data.id %}" class="btn-sm btn-outline-info">Hadia</a> |
+                            <a href="{% url 'lista-professor-hamos' data.id %}" class="btn-sm btn-outline-danger" onclick="return confirm('Tebes Duni Hakarak Hamos?')">Hamos</a>
+                          </td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 col-md-5"><div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div>
+                  <div class="col-sm-12 col-md-7">
+                    <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                      <ul class="pagination">
+                        <li class="paginate_button page-item previous disabled" id="example1_previous"><a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
+                        <li class="paginate_button page-item active"><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
+                        <li class="paginate_button page-item"><a href="#" aria-controls="example1" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
+                        <li class="paginate_button page-item"><a href="#" aria-controls="example1" data-dt-idx="3" tabindex="0" class="page-link">3</a></li>
+                        <li class="paginate_button page-item"><a href="#" aria-controls="example1" data-dt-idx="4" tabindex="0" class="page-link">4</a></li>
+                        <li class="paginate_button page-item"><a href="#" aria-controls="example1" data-dt-idx="5" tabindex="0" class="page-link">5</a></li>
+                        <li class="paginate_button page-item"><a href="#" aria-controls="example1" data-dt-idx="6" tabindex="0" class="page-link">6</a></li>
+                        <li class="paginate_button page-item next" id="example1_next"><a href="#" aria-controls="example1" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+
+        <!-- Modal -->
+      </div>
+
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+  <!-- /.content-wrapper -->
+  <!-- <script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+
+  <script>
+    $(function () {
+      $("#example1").DataTable();
+      $("#example2").DataTable({
+        paging: true,
+        lengthChange: false,
+        searching: false,
+        ordering: true,
+        info: true,
+        autoWidth: false,
+      });
+    });
+  </script> -->
+  <!-- ./wrapper -->
+  <script src="{% static 'assets/plugins/jquery/jquery.min.js'%}"></script>
+  <script src="{% static 'assets/dist/js/adminlte.min.js' %}"></script>
+</div>
+{% endblock %}
