@@ -386,6 +386,10 @@ def DeleteListaKlase(request,id):
     messages.success(request, f"Dadus {data.naran_klase} Hamos ho Susesu!")
     return redirect('lista-klasse')
 
+@login_required
+def NoscarDetail(request):
+    return render(request, 'administrador/eskola/about-noscar.html')
+
 # @login_required
 # def DetailStudents(request):
    

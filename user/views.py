@@ -1,4 +1,5 @@
 
+import os
 from django.contrib import messages
 from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
@@ -36,13 +37,13 @@ def Logout(request):
 @login_required
 def Usuario(request):
     data = User.objects.prefetch_related('groups').all()
+    profile = Profile.objects.all()
     # print("usuario",usuario)
     context = {
-        'users' : data
+        'users' : data,
+        'profile' : profile
     }
     return render(request, 'users/lista-usuario.html',context)
-
-
 
 
 @login_required
@@ -50,13 +51,32 @@ def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)  # Log in the user after registration
+            form.save()  # Log in the user after registration
             messages.success(request, "Registration successful!")
-            return redirect('home')  # Redirect to the desired page after registration
+            return redirect('lista-usuario')  # Redirect to the desired page after registration
     else:
         form = CustomUserCreationForm()
     return render (request, 'users/formulario-user.html',{'form':form,'title':"Formulario Hadia Dadus Estudante", 'page':"Usuario",'button':"Aumenta"})
+
+@login_required
+def AumentaBio(request):    
+    if request.method == 'POST':
+        form = FormBio(request.POST)
+        if form.is_valid():
+            form.save()  
+            messages.success(request, "Dadus Profile Aumenta Ho Susesu!")
+            return redirect('lista-usuario')  # Redirect to the desired page after registration
+    else:
+        form = FormBio()
+    return render (request, 'users/formulario-user.html',{'form':form,'title':"Formulario Hadia Dadus Estudante", 'page':"Usuario",'button':"Aumenta"})
+
+def HamosProfile(request,id):
+    delete_id = Profile.objects.get(id=id)
+    if delete_id.profile_image and os.path.isfile(delete_id.profile_image.path):
+        os.remove(delete_id.profile_image.path)
+    delete_id.delete()
+    messages.success(request, "Dadus Profile Hamos ho Susesu!")
+    return redirect('lista-usuario')
 
 from django.contrib.auth.decorators import login_required
 from .forms import CustomPasswordChangeForm

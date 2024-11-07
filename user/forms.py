@@ -11,8 +11,12 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = [ 'first_name', 'last_name', 'username','email', 'password1', 'password2']
+        fields = ['first_name', 'last_name', 'username','email', 'password1', 'password2']
     
+class FormBio(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = '__all__'
    
 
 from django.contrib.auth.forms import PasswordChangeForm

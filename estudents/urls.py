@@ -41,6 +41,10 @@ urlpatterns = [
 
     # path('home/chart-estudante/', DadusListaEstudante, name="chart-estudante"),
 
-    path('profile/estudante/<str:id>', DetailEstudante, name="profile-estudante")
+    path('profile/estudante/<str:id>', DetailEstudante, name="profile-estudante"),
+
+    path('profile/noscar/', NoscarDetail, name="noscar-profile-detail")
+
+    
     
 ]
