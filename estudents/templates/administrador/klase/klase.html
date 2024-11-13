@@ -80,7 +80,6 @@
                         <tr role="row">
                           <th>No</th>
                           <th>Naran Klase</th>
-                          <th>Naran Kurso</th>
                           <th>Aksaun</th>
                         </tr>
                       </thead>
@@ -89,8 +88,7 @@
                         {% for klase in dadus %}
                         <tr>
                           <td>{{ forloop.counter }}</td>
-                          <td>{{ klase.naran_klase }}</td>
-                          <td>{{ klase.kurso.naran_kurso }}</td>
+                          <td><a href="{% url 'detail-klase-estudante' klase.id %}">{{ klase.naran_klase }}</a></td>
 
                           <td>
                             <a href="{% url 'hadia-klase' klase.id %}" class="btn-sm btn-outline-info">Hadia</a>

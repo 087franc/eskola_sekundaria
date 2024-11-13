@@ -1,5 +1,14 @@
 from django.db import models
+import uuid
 
+
+class Klasse(models.Model):
+    naran_klase = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.naran_klase}"
 
 class Course(models.Model):
     naran_kurso = models.CharField(max_length=255)
@@ -8,16 +17,23 @@ class Course(models.Model):
 
     def __str__(self):
         return f"{self.naran_kurso}"
-
-
-class Klasse(models.Model):
-    naran_klase = models.CharField(max_length=255)
-    kurso = models.ForeignKey(Course, on_delete=models.CASCADE, default=None)
+    
+class AnoLectivo(models.Model):
+    tinan = models.CharField(max_length=20)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.naran_klase}"
+        return f"{self.tinan}"
+    
+# model of Kurso and Klase  Estudents
+class ControluKursuKlase(models.Model):
+    kurso = models.ForeignKey(Course, on_delete=models.CASCADE)
+    klase = models.ForeignKey(Klasse, on_delete=models.CASCADE)
+    tinan = models.ForeignKey(AnoLectivo, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.kurso} - {self.klase} - {self.tinan}"
 
 class Teacher(models.Model):
     naran = models.CharField(max_length=255)
@@ -58,10 +74,7 @@ class Teacher(models.Model):
 
 
 class Subjects(models.Model):
-    naran_materia = models.CharField(max_length=255)
-    kurso = models.ForeignKey(Course, on_delete=models.CASCADE)
-    professor = models.ForeignKey(Teacher, on_delete=models.CASCADE)
-    klase = models.ForeignKey(Klasse, on_delete=models.CASCADE)
+    naran_materia = models.CharField(max_length=255)   
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
@@ -94,12 +107,9 @@ class Students(models.Model):
         ('Manu-Fahi', 'Manu-Fahi'),
         ('Viqueque', 'Viqueque'),
     ]
-
     naran = models.CharField(max_length=255)
-    materia = models.ManyToManyField(Subjects, related_name='students') 
-    data_moris = models.DateField(null=True)
-    kurso = models.ForeignKey(Course, on_delete=models.CASCADE)  
-    klase = models.OneToOneField(Klasse, on_delete=models.CASCADE, related_name='students', null=True, blank=True)
+    # materia = models.ManyToManyField(Subjects, related_name='students', null=True, blank=True) 
+    data_moris = models.DateField(null=True)    
     sexo = models.CharField(max_length=20, choices=GENDER_CHOICES, default='Choose Gender')
     no_telefone = models.CharField(max_length=15, null=True, unique=True)
     hela_fatin = models.CharField(max_length=255)
@@ -112,7 +122,32 @@ class Students(models.Model):
         return self.naran
 
 
+# model of klase to Estudents
+class KlaseEstudante(models.Model):
+    estudante = models.ForeignKey(Students, on_delete=models.CASCADE,null=True)
+    controluestudante = models.ForeignKey(ControluKursuKlase, on_delete=models.Model, related_name="controlu")
+    estado_choices = [
+        ('ativu', 'ativu'),
+        ('nao-ativu', 'nao-ativu'),
+    ]
+    estado = models.CharField(max_length=20, choices=estado_choices,default="ativu")
+        
 
+    def __str__(self):
+        return f"{self.estudante} - {self.controluestudante}"
 
+class KontroluMateria(models.Model):
+    materia = models.ForeignKey(Subjects, on_delete=models.CASCADE)
+    controlukursuklase=models.ForeignKey(ControluKursuKlase, on_delete=models.CASCADE)
+    
 
+    def __str__(self):
+        return f"{self.materia} - {self.controlukursuklase}"
+    
+class KontrolaEstudanteMateria(models.Model):
+    estudante = models.ForeignKey(Students, on_delete=models.CASCADE, default='')
+    kontrolumateria = models.ForeignKey(KontroluMateria, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"{self.estudante} - {self.kontrolumateria}"
+    

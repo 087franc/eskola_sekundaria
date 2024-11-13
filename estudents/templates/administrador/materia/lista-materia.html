@@ -80,9 +80,6 @@
                         <tr role="row">
                           <th>No</th>
                           <th>Naran Materia</th>
-                          <th>Professor</th>
-                          <th>Kurso</th>
-                          <th>Klase</th>
                           <th>Aksaun</th>
                         </tr>
                       </thead>
@@ -92,9 +89,6 @@
                         <tr>
                           <td>{{ forloop.counter }}</td>
                           <td>{{ teacher.naran_materia }}</td>
-                          <td>{{ teacher.professor.naran }}</td>
-                          <td>{{ teacher.klase.naran_klase }}</td>
-                          <td>{{ teacher.kurso.naran_kurso }}</td>
 
                           <td>
                             <a href="{% url 'hadia-materia' teacher.id %}" class="btn-sm btn-outline-info">Hadia</a>

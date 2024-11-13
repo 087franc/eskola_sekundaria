@@ -83,7 +83,6 @@
                           <th>Email</th>
                           <th>Hela Fatin</th>
                           <th>Municipio</th>
-                          <th>Materia</th>
                           <th>Foto</th>
                           <th>Aksaun</th>
                         </tr>
@@ -99,7 +98,6 @@
                           <td>{{ data.email }}</td>
                           <td>{{ data.hela_fatin }}</td>
                           <td>{{ data.municipio }}</td>
-                          <td>{{ data.materia }}</td>
                           <td>{% if data.foto %}<img src="{{data.foto.url}}" width="50px" height="50px" />{%endif%}</td>
                           <td>
                             <a href="{% url 'lista-professor-hadia' data.id %}" class="btn-sm btn-outline-info">Hadia</a> |

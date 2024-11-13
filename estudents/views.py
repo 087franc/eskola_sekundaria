@@ -1,5 +1,6 @@
 # from pyexpat.errors import messages
 
+from django.http import Http404
 from user.models import Profile
 from django.db.models import Count
 import os
@@ -72,22 +73,25 @@ def Dashboard (request):
     }    
     return render(request, 'administrador/index.html',context)
 
-# def DadusListaEstudante(request):
-#     lista_mun_data = Students.objects.values('municipio').annotate(total=Count('municipio'))
-#     lista_mun = [item['municipio'] for item in lista_mun_data]
-#     numeru_mun = [item['total'] for item in lista_mun_data]
+# dadus estudante
+def DadusEstudante(request,id):
+    klase = Course.objects.get(id=id)
+    kursu = Klasse.objects.filter(naran_klase=klase)
+    context = {
+        'title': "Dadus Estudante Ciencias Naturais",        
+        'kursu': kursu,
+    }
+    return render(request, 'administrador/klase/dadus-klase.html',context)
 
-#     lista_sexo_data = Students.objects.values('sexo').annotate(total=Count('sexo'))
-#     lista_sexo = [item['sexo'] for item in lista_sexo_data]
-#     numeru_sexo = [item['total'] for item in lista_sexo_data]   
-
-#     context = {      
-#         'lista_mun': lista_mun,
-#         'numeru_mun': numeru_mun,
-#         'lista_sexo': lista_sexo,
-#         'numeru_sexo': numeru_sexo
-#     }
-#     return render(request, 'administrador/index.html',context)    
+# dadus klase estudante
+def DadusEstudanteKlase(request,id):
+    klase = Klasse.objects.get(id=id)
+    estudante = Students.objects.filter(klase=klase)
+    context = {
+        'title' : "Dadus Estudante Kada Klase",
+        'estudante': estudante,
+    }
+    return render(request, 'administrador/estudante/dadus-estudante.html',context)
 
 @login_required
 def ListaEstudante(request):
@@ -270,13 +274,45 @@ def ListaProfessorHamos(request,id):
 
 
 # Detail Estudante
+
 def DetailEstudante(request, id):
-    data = Students.objects.get(id=id)
+    # Retrieve student by ID
+    student = get_object_or_404(Students, id=id)
+    Bio = Profile.objects.all()
+    # Fetch the student's active class and course (if any)
+    try:
+        klase_estudante = KlaseEstudante.objects.get(estudante=student)
+        course = klase_estudante.controluestudante.kurso
+        klasse = klase_estudante.controluestudante.klase
+    except KlaseEstudante.DoesNotExist:
+        course = None
+        klasse = None
+
+    # Retrieve subjects for the student's course and class
+    if course and klasse:
+        subjects = KontroluMateria.objects.filter(
+            controlukursuklase__kurso=course,
+            controlukursuklase__klase=klasse
+        )
+    else:
+        subjects = KontroluMateria.objects.none()
+
     context = {
-        'dadus' : data,
-        'title' : f"Detail Estudante {data.naran} nia Identidade",        
+        'student': student,
+        'course': course,
+        'klasse': klasse,
+        'subjects': subjects,
+        'title' : f"Detail Estudante {student.naran} nia Identidade",         
+        'klase_estudante' : klase_estudante,              
+      
     }
+    print("subject", subjects)
+    print("klase estudante", klase_estudante)
+    print("Kourse", course)
+    print("klase", klasse)
+    print("student", student)
     return render(request, "administrador/estudante/detail-estudante.html",context)
+
     
 # dadus Kurso
 @login_required
@@ -331,60 +367,41 @@ def DeleteListaKurso(request,id):
     messages.success(request, f"Dadus {data.naran_kurso} Hamos ho Susesu!")
     return redirect('lista-kurso')
 
-
-
-# dadus Klasse
+# DetailEstudanteKursu
 @login_required
-def ListaKlase(request):
-    data = Klasse.objects.all()
+def DadusEstudanteKurso(request, id):
+    kurso = Course.objects.get(id=id)
+    klase = ControluKursuKlase.objects.filter(kurso=kurso).select_related('klase','tinan')
     context = {
-        'title' : "Lista Klasse",
-        'dadus' : data
+        'kurso':kurso,
+        'klase':klase,
     }
-    return render(request, 'administrador/klase/klase.html',context)
+    return render(request, 'administrador/kurso/detail-estudante-kurso.html',context)
 
+# DetailEstudanteKlase
 @login_required
-def AumentaListaKlase(request):
-    if request.method == "POST":
-        form = FormKlasse(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Dadus Klasse Aumenta ho Susesu!")
-            return redirect('lista-klasse')
-    else:
-        form = FormKlasse() 
+def DadusEstudanteKlase(request, kurso_id, klase_id):
+    print("klase:",klase_id)
+    print("kurso:",kurso_id)
+
+    kurso = get_object_or_404(Course, id=kurso_id)    
+    klase = get_object_or_404(Klasse, id=klase_id)
+    print("klase:",klase)
+    print("kurso:",kurso)
+    students = KlaseEstudante.objects.filter(
+        controluestudante__kurso=kurso,
+        controluestudante__klase=klase
+        ,estado='ativu'  # Optional filter for active students
+    )#.select_related('estudante')
+    print("students:",students)
     context = {
-        'title' : "Aumenta Lista Klasse",
-        'form' : form,
-        'page' : "Klasse",
-        'button' : "Aumenta",
+        'kurso':kurso,
+        'klase':klase,
+        'estudante':students,
     }
-    return render(request, 'administrador/klase/formulario-klase.html',context)
+    
+    return render(request, 'administrador/klase/detail-estudante-klase.html',context)
 
-@login_required
-def HadiaListaKlase(request,id):
-    data = Klasse.objects.get(id=id)
-    if request.method == "POST":
-        form = FormKlasse(request.POST, instance=data)
-        if form.is_valid():
-            form.save()
-            messages.success(request, f"Dadus {data.naran_klase} Hadia ho Susesu!")
-            return redirect('lista-klasse')
-    else:
-        form = FormKlasse(instance=data)
-    context = {
-        'title' : "Formulario Hadia Dadus Klase",
-        'button': "Hadia",
-        'form' : form,
-    }
-    return render(request, 'administrador/klase/formulario-klase.html',context)
-
-@login_required
-def DeleteListaKlase(request,id):
-    data = Klasse.objects.get(id=id)
-    data.delete()
-    messages.success(request, f"Dadus {data.naran_klase} Hamos ho Susesu!")
-    return redirect('lista-klasse')
 
 @login_required
 def NoscarDetail(request):

@@ -7,7 +7,7 @@ from estudents.models import *
 class EstudanteForm(forms.ModelForm):
     class Meta:
         model = Students
-        fields = ['naran', 'sexo', 'hela_fatin', 'data_moris', 'no_telefone','municipio','foto','materia','kurso']
+        fields = ['naran', 'sexo', 'hela_fatin', 'data_moris', 'no_telefone','municipio','foto']
 
         widgets = {
             'data_moris' : forms.DateInput(attrs={'type': 'date'}),
@@ -16,7 +16,7 @@ class EstudanteForm(forms.ModelForm):
 class FormMateria(forms.ModelForm):
     class Meta:
         model = Subjects
-        fields = '__all__'
+        fields = ['naran_materia']
 
 class FormProfessor(forms.ModelForm):
     class Meta:

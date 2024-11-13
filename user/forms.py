@@ -23,16 +23,16 @@ from django.contrib.auth.forms import PasswordChangeForm
 
 class CustomPasswordChangeForm(PasswordChangeForm):
     old_password = forms.CharField(
-        label="Old Password",
-        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Old Password'}),
+        label="Password Tuan",
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Prense password tuan'}),
     )
     new_password1 = forms.CharField(
-        label="New Password",
-        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'New Password'}),
+        label="Password Foun",
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'password foun'}),
     )
     new_password2 = forms.CharField(
-        label="Confirm New Password",
-        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm New Password'}),
+        label="Komfirma Password",
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'komfirma password'}),
     )
 
     class Meta:

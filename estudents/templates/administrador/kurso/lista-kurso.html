@@ -33,7 +33,7 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Dadus Materia</h3>
+              <h3 class="card-title">Kurso Sira</h3>
             </div>
             {% if messages %} {% for message in messages %}
 
@@ -88,7 +88,7 @@
                         {% for kurso in dadus %}
                         <tr>
                           <td>{{ forloop.counter }}</td>
-                          <td>{{ kurso.naran_kurso }}</td>
+                          <td><a href="{% url 'dadus-estudante-kurso' kurso.id %}">{{ kurso.naran_kurso }}</a></td>
 
                           <td>
                             <a href="{% url 'hadia-kurso' kurso.id %}" class="btn-sm btn-outline-info">Hadia</a>
