@@ -53,6 +53,8 @@ urlpatterns = [
 
     path('profile/estudante/<str:id>', DetailEstudante, name="profile-estudante"),
 
+    path('profile/professor/<str:id>', DetailProfessor, name="detail-professor"),
+
     path('profile/noscar/', NoscarDetail, name="noscar-profile-detail")
 
     

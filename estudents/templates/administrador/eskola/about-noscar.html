@@ -1,7 +1,55 @@
 {% extends 'administrador/base.html' %}{% block konteudu %}{% load static %}
 <div class="wrapper">
   <!-- Main Sidebar Container -->
+<style>
+  /* Style for the thumbnail image */
+.thumbnail {
+    cursor: pointer;
+    transition: 0.3s;
+}
 
+.thumbnail:hover {
+    opacity: 0.7;
+}
+
+/* Modal styling */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8); /* Black with opacity */
+}
+
+/* Modal content (the enlarged image) */
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+/* Close button */
+.close {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #ffffff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbbbbb;
+    text-decoration: none;
+}
+</style>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -120,19 +168,23 @@
                       <!-- /.user-block -->
                       <div class="row mb-3">
                         <div class="col-sm-6">
-                          <img class="img-fluid" src="{% static 'img/noscar/4.jpg' %}" alt="Photo" />
+                          <img class="img-fluid thumbnail" src="{% static 'img/noscar/4.jpg' %}" alt="Photo" onclick="enlargeImage(this)">
                         </div>
+                        <div id="imageModal" class="modal" onclick="closeModal()">
+                          <span class="close">&times;</span>
+                          <img id="enlargedImage" class="modal-content">
+                         </div>
                         <!-- /.col -->
                         <div class="col-sm-6">
                           <div class="row">
                             <div class="col-sm-6">
-                              <img class="img-fluid mb-3" src="{% static 'img/noscar/1.jpg' %}" alt="Photo" />
-                              <img class="img-fluid" src="{% static 'img/noscar/2.jpg' %}" alt="Photo" />
+                              <img class="img-fluid thumbnail" src="{% static 'img/noscar/1.jpg' %}" alt="Photo" onclick="enlargeImage(this)">
+                              <img class="img-fluid thumbnail" src="{% static 'img/noscar/2.jpg' %}" alt="Photo" onclick="enlargeImage(this)">
                             </div>
                             <!-- /.col -->
                             <div class="col-sm-6">
-                              <img class="img-fluid mb-3" src="{% static 'img/noscar/3.jpg' %}" alt="Photo" />
-                              <img class="img-fluid" src="{% static 'img/noscar/4.jpg' %}" alt="Photo" />
+                              <img class="img-fluid thumbnail" src="{% static 'img/noscar/3.jpg' %}" alt="Photo" onclick="enlargeImage(this)">
+                              <img class="img-fluid thumbnail" src="{% static 'img/noscar/4.jpg' %}" alt="Photo" onclick="enlargeImage(this)">
                             </div>
                             <!-- /.col -->
                           </div>
@@ -307,6 +359,25 @@
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
+<script>
+  function enlargeImage(img) {
+      // Get the modal and image elements
+      var modal = document.getElementById("imageModal");
+      var enlargedImage = document.getElementById("enlargedImage");
+
+      // Set the source of the enlarged image to the clicked thumbnail
+      enlargedImage.src = img.src;
+
+      // Display the modal
+      modal.style.display = "block";
+  }
+
+  function closeModal() {
+      // Hide the modal when clicked
+      var modal = document.getElementById("imageModal");
+      modal.style.display = "none";
+  }
+</script>
 <script src="{% static 'assets/plugins/jquery/jquery.min.js'%}"></script>
 <script src="{% static 'assets/dist/js/adminlte.min.js' %}"></script>
 {% endblock %}

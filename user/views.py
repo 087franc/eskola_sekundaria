@@ -49,14 +49,40 @@ def Usuario(request):
 @login_required
 def register(request):    
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()  # Log in the user after registration
-            messages.success(request, "Registration successful!")
-            return redirect('lista-usuario')  # Redirect to the desired page after registration
+        if 'user_form' in request.POST:
+            user_form = CustomUserCreationForm(request.POST)
+            if user_form.is_valid():
+                user = user_form.save()  # Log in the user after registrati
+                profile_form = FormBio(user_id=user.id)
+            return render(request, 'users/formulario-user.html', {
+                    'user_form': None,  # Hide the student form
+                    'profile_form': profile_form,
+                    'button': "Aumenta",
+                    'title': "Formulario Aumenta Dadus Usuario",
+                    'user': user,
+                })
+        elif 'profile_form' in request.POST:
+            profile_form = FormBio(request.POST, request.FILES)
+            if profile_form.is_valid():
+                user_id = request.POST.get('user_id')
+                user = User.objects.get(id=user_id)
+                assigment = profile_form.save(commit=False)
+                assigment.user = user
+                assigment.save()
+                messages.success(request, f"Dadus Usuario {user.username} Aumenta ho Susesu")
+                return redirect('lista-usuario')
     else:
-        form = CustomUserCreationForm()
-    return render (request, 'users/formulario-user.html',{'form':form,'title':"Formulario Hadia Dadus Estudante", 'page':"Usuario",'button':"Aumenta"})
+        user_form = CustomUserCreationForm()
+        profile_form = FormBio()
+    return render(request, 'users/formulario-user.html', {
+                    'user_form': user_form,  # Hide the student form                   
+                    'button': "Aumenta",
+                    'title': "Formulario Aumenta Dadus Usuario",
+                        })
+            
+# else:
+# form = CustomUserCreationForm()
+#     return render (request, 'users/formulario-user.html',{'form':form,'title':"Formulario Aumenta Dadus Usuario", 'page':"Usuario",'button':"Aumenta"})
 
 @login_required
 def AumentaBio(request):    
@@ -69,6 +95,24 @@ def AumentaBio(request):
     else:
         form = FormBio()
     return render (request, 'users/formulario-user.html',{'form':form,'title':"Formulario Hadia Dadus Estudante", 'page':"Usuario",'button':"Aumenta"})
+
+def HadiaaProfile(request,id):
+    data = Profile.objects.get(id=id)
+    if request.method == "POST":
+        form = FormBio(request.POST, request.FILES, instance=data)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"Dadus Profile {data.user} hadia ho Susesu!")
+            return redirect('lista-usuario')
+    else:
+        form = FormBio(instance=data)
+    context = {
+        'title': "Formulario Hadia Dadus Profile",
+        'button': "Hadia",
+        'form':form
+    }
+    return render(request, 'users/formulario-hadia-user.html',context)
+    
 
 def HamosProfile(request,id):
     delete_id = Profile.objects.get(id=id)

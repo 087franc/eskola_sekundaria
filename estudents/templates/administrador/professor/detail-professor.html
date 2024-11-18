@@ -76,7 +76,7 @@
               <div class="card-header p-2">
                 <ul class="nav nav-pills">
                   <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">My Bio</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Materia</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Lista Materia</a></li>
                   <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Informasaun</a></li>
                 </ul>
               </div>
@@ -86,34 +86,36 @@
                   <div class="active tab-pane" id="activity">
                     <!-- Post -->
                     <div class="post">
-                      {% for line in bio %}
+                      {% for line in lines %}
                         <p>{{ line }}</p>
                       {% endfor %}
-                        
                     </div>
                   </div>
                   <!-- /.tab-pane -->
                   <div class="tab-pane" id="timeline">
                     <!-- The timeline -->
+                     <h6>Lista Materia no Klase sira ne'ebe Professor {{ professor.naran }} Hanorin</h6>
                     <div class="tabela">
                       <table class="table table-striped">
                         <thead>
                           <tr>
                             <th>Materia</th>
-                            <th>Valor</th>
+                            <th>Klase</th>
+                            <th>Kursu</th>
                           </tr>
-                          {% for subject in subjects %}
+                          {% for mat in dadus %}
                           <tr>
-                            <td>{{ subject.materia }}</td>
-                            {% if subjects.valor %}
-                            <td>{{ subject.valor|default:"N/A" }}</td>
+                            <td>{{ mat.kontrolumateria.materia }}</td>
+                            {% if mat.kontrolumateria.controlukursuklase.klase %}
+                            <td>{{ mat.kontrolumateria.controlukursuklase.klase|default:"N/A" }}</td>
+                            <td>{{ mat.kontrolumateria.controlukursuklase.kurso|default:"N/A" }}</td>
                             {% else %}
-                            <td>Valor Seidauk Iha</td>
+                            <td>Materia Seidauk Iha</td>
                             {% endif %}
                           </tr>
                           {% empty %}
                           <tr>
-                            <td colspan="2">Laiha Materia Ruma Ne'ebe Estudante Ne'e iha</td>
+                            <td colspan="2">Laiha Materia Ruma Ne'ebe Professor/a Ne'e Hanorin</td>
                           </tr>
                           {% endfor %}
                         </tbody>

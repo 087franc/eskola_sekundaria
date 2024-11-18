@@ -18,6 +18,7 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 # views for login
+@login_required
 def Login(request):
     if request.method == "POST":
         username = request.POST.get('username')
@@ -74,6 +75,7 @@ def Dashboard (request):
     return render(request, 'administrador/index.html',context)
 
 # dadus estudante
+@login_required
 def DadusEstudante(request,id):
     klase = Course.objects.get(id=id)
     kursu = Klasse.objects.filter(naran_klase=klase)
@@ -84,6 +86,7 @@ def DadusEstudante(request,id):
     return render(request, 'administrador/klase/dadus-klase.html',context)
 
 # dadus klase estudante
+@login_required
 def DadusEstudanteKlase(request,id):
     klase = Klasse.objects.get(id=id)
     estudante = Students.objects.filter(klase=klase)
@@ -116,20 +119,41 @@ def ListaEstudante(request):
 @login_required
 def ListaAumentaEstudante(request):
     if request.method == 'POST':
-        form = EstudanteForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Dadus Portfolio Aumenta ho Susesu')
-            return redirect('lista-estudante')    
+        if 'student_form' in request.POST:
+            # Handle Student Form Submission
+            student_form = EstudanteForm(request.POST, request.FILES)
+            if student_form.is_valid():
+                student = student_form.save()
+                # Reload the form page, now showing the class and course form
+                class_course_form = FormKlasCourseEstudents(student_id=student.id)
+                return render(request, 'administrador/estudante/formulario-aumenta-estudante.html', {
+                    'student_form': None,  # Hide the student form
+                    'class_course_form': class_course_form,
+                    'button': "Aumenta",
+                    'title': "Formulario Aumenta Dadus Estudante",
+                    'student': student,
+                })
+        elif 'class_course_form' in request.POST:
+            # Handle Class and Course Form Submission
+            class_course_form = FormKlasCourseEstudents(request.POST)
+            if class_course_form.is_valid():
+                # Get the student instance to associate it with the class/course assignment
+                student_id = request.POST.get('student_id')
+                student = Students.objects.get(id=student_id)
+                assignment = class_course_form.save(commit=False)
+                assignment.student = student  # Link assignment to the student
+                assignment.save()
+                messages.success(request, f"Dadus Estudante {student.naran} Aumenta ho Susesu")
+                return redirect('lista-estudante')
     else:
-        form = EstudanteForm()
-    context = {
+        # Initial display: Only show the Student Form
+        student_form = EstudanteForm()
+        class_course_form = None  # Do not show the class/course form yet
+    return render(request, 'administrador/estudante/formulario-aumenta-estudante.html', {
+        'student_form': student_form,
+        'button': "Aumenta",
         'title': "Formulario Aumenta Dadus Estudante",
-        'page': "Estudante",
-        'form':form,
-        'button': 'Aumenta',
-    }
-    return render (request, 'administrador/estudante/formulario-estudante.html',context)
+    })
 
 @login_required
 def ListaHadiaEstudante (request,id):
@@ -148,7 +172,7 @@ def ListaHadiaEstudante (request,id):
         'form': form,
         'button': 'Hadia',
     }
-    return render(request, 'administrador/estudante/formulario-estudante.html',context)
+    return render(request, 'administrador/estudante/formulario-hadia-estudante.html',context)
 
 @login_required
 def ListaDeleteEstudante(request,id):
@@ -274,11 +298,10 @@ def ListaProfessorHamos(request,id):
 
 
 # Detail Estudante
-
+@login_required
 def DetailEstudante(request, id):
     # Retrieve student by ID
     student = get_object_or_404(Students, id=id)
-    Bio = Profile.objects.all()
     # Fetch the student's active class and course (if any)
     try:
         klase_estudante = KlaseEstudante.objects.get(estudante=student)
@@ -296,9 +319,11 @@ def DetailEstudante(request, id):
         )
     else:
         subjects = KontroluMateria.objects.none()
-
+    bio_lines = student.bio.splitlines() 
+    
     context = {
         'student': student,
+        'bio': bio_lines,
         'course': course,
         'klasse': klasse,
         'subjects': subjects,
@@ -306,12 +331,23 @@ def DetailEstudante(request, id):
         'klase_estudante' : klase_estudante,              
       
     }
-    print("subject", subjects)
-    print("klase estudante", klase_estudante)
-    print("Kourse", course)
-    print("klase", klasse)
-    print("student", student)
     return render(request, "administrador/estudante/detail-estudante.html",context)
+
+@login_required
+def DetailProfessor(request,id):
+    professor = Teacher.objects.get(id=id)
+    materia = KontrolaProfessorMateria.objects.filter(professor=professor)    
+    bio = professor.bio.splitlines()
+    context = {
+        'title' : f"Professor {professor.naran} nia identidade",
+        'professor':professor,
+        'dadus':materia,
+        'lines':bio,
+    }
+    print("professor", professor)
+    print("materia", materia)
+   
+    return render(request, 'administrador/professor/detail-professor.html',context)
 
     
 # dadus Kurso
@@ -342,7 +378,7 @@ def AumentaListaKurso(request):
     }
     return render(request, 'administrador/kurso/formulario-kurso.html',context)
 
-
+@login_required
 def HadiaListaKurso(request,id):
     data = Course.objects.get(id=id)
     if request.method == "POST":
@@ -360,7 +396,7 @@ def HadiaListaKurso(request,id):
     }
     return render(request, 'administrador/kurso/formulario-kurso.html',context)
 
-
+@login_required
 def DeleteListaKurso(request,id):
     data = Course.objects.get(id=id)
     data.delete()

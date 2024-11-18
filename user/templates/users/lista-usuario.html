@@ -32,7 +32,7 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Dadus Usuario</h3>
+              <h2 class="card-title"><b>Dadus Usuario</b></h2>
             </div>
             {% if messages %} {% for message in messages %}
 
@@ -91,7 +91,7 @@
                           <td>{{ forloop.counter }}</td>
                           <td>{{ user.username }}</td>
                           <td>{{ user.password|truncatechars:20}}</td>
-                          <td>{% if user.groups.all %} {% for group in user.groups.all %} {{ group.name }}{% if not forloop.last %}, {% endif %} {% endfor %} {% else %} No Group Assigned {% endif %}</td>
+                          <td>{% for group in user.groups.all %}{{ group }}{% endfor %}</td>
                           <td>
                             <a href="{% url 'delete-lista-usuario' user.id %}" class="btn-sm btn-outline-danger" onclick="return confirm('Tebes Duni Hakarak Hamos?')">Hamos</a>
                             <a href="{% url 'hadia-lista-usuario' user.id %}" class="btn-sm btn-outline-info">Troka Password</a>
@@ -138,19 +138,9 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Dadus Profile User</h3>
+              <h2 class="card-title"><b>Dadus Profile User</b></h2>
             </div>
-            {% if messages %} {% for message in messages %}
 
-            <div class="container">
-              <div class="alert alert-info m-2 alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-            </div>
-            {% endfor %} {% endif %}
             <!-- /.card-header -->
             <div class="card-body">
               <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
@@ -171,9 +161,6 @@
                   </div>
                   <div class="col-sm-12 col-md-6">
                     <div id="example1_filter" class="dataTables_filter">
-                      <div class="aumenta">
-                        <a href="{% url 'aumenta-bio' %}" class="btn btn-info m-2">aumenta User Profile</a>
-                      </div>
                       <!-- <label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="example1" /> </label> -->
                     </div>
                   </div>
@@ -199,8 +186,8 @@
                           <td>{{ data.bio}}</td>
                           <td>{% if data.profile_image %}<img src="{{data.profile_image.url}}" width="50px" height="50px" />{%endif%}</td>
                           <td>
-                            <a href="{% url 'hamos-profile' data.id %}" class="btn-sm btn-outline-danger" onclick="return confirm('Tebes Duni Hakarak Hamos?')">Hamos</a>
-                            <a href="#" class="btn-sm btn-outline-info">Hadia</a>
+                            <!-- <a href="{% url 'hamos-user-profile' data.id %}" class="btn-sm btn-outline-danger" onclick="return confirm('Tebes Duni Hakarak Hamos?')">Hamos</a> -->
+                            <a href="{% url 'hadia-user-profile' data.id %}" class="btn-sm btn-outline-info">Hadia</a>
                           </td>
                         </tr>
                         {% endfor %}

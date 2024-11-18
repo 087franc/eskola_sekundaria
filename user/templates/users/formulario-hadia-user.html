@@ -1,0 +1,63 @@
+{% extends 'administrador/base.html' %} {% block konteudu %}{% load crispy_forms_tags %}
+
+<div class="content-wrapper" style="min-height: 1246.72px">
+  <!-- Content Header (Page header) -->
+  <header> 
+    <ol class="breadcrumb mb-1 mt-1">
+      <li class="breadcrumb-item"><a href="{% url 'lista-materia' %}">Fila</a></li>
+      {% if page == 'form_project' %}
+      <li class="breadcrumb-item"><a href="#">Lista Projetu</a></li>      
+      {%endif%}
+      <li class="breadcrumb-item active" aria-current="page">{{title}}</li>
+    </ol>
+  </header>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-9">
+          <!-- general form elements -->
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">{{ page }}</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                    <div id="divmessage" class="alert alert-danger alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        {{ field.label }}: {{ error }}
+                    </div>
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+            <form method="post" enctype="multipart/form-data">
+                <div class="card-body">
+                    <div class="form-group">
+                {% csrf_token %}
+                {{form|crispy}}
+                <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i> {{ button }}</button>
+                <button type="reset" class="btn btn-sm btn-dark"  onclick="self.history.back()"><i class="fa fa-back"></i> Kansela</button>
+            </div>
+            </div>
+                <form>
+          </div>
+          </div>
+          <!-- /.card -->
+
+          <!-- Form Element sizes -->
+        </div>
+        <!--/.col (right) -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+
+{% endblock %}

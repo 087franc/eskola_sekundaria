@@ -2,7 +2,7 @@
 
 <div class="content-wrapper" style="min-height: 1246.72px">
   <!-- Content Header (Page header) -->
-
+  
   <header> 
     <ol class="breadcrumb mb-1 mt-1">
       <li class="breadcrumb-item"><a href="{% url 'lista-estudante' %}">Fila</a></li>
@@ -36,9 +36,9 @@
     <div class="container-fluid">
       <div class="row">
         <!-- left column -->
-        <div class="col-md-9">
+        <div class="col-md-9 m-2">
           <!-- general form elements -->
-          <div class="card card-primary">
+          <div class="card card-primary  d-flex">
             <div class="card-header">
               <h3 class="card-title">{{ page }}</h3>
             </div>
@@ -54,7 +54,8 @@
                     {% endfor %}
                 {% endfor %}
             {% endif %}
-            <form method="post" enctype="multipart/form-data">
+            
+            <!-- <form method="post" enctype="multipart/form-data">
                 <div class="card-body">
                     <div class="form-group">
                 {% csrf_token %}
@@ -63,7 +64,40 @@
                 <button type="reset" class="btn btn-sm btn-dark"  onclick="self.history.back()"><i class="fa fa-backward"></i> Kansela</button>
             </div>
             </div>
-                <form>
+                <form> -->
+
+                  <!-- add_student.html -->
+                <h2 class="text-center">{{ title }}</h2>
+                {% if student_form %}
+                
+                    <form method="post" enctype="multipart/form-data">
+                      <div class="card-body m-2"> 
+                            {% csrf_token %}
+                            {{ student_form|crispy }}    
+                        <button type="submit" class="btn btn-sm btn-primary" name="student_form">{{ button }}</button>
+                        <button type="reset" class="btn btn-sm btn-dark"  onclick="self.history.back()"><i class="fa fa-backward"></i> Kansela</button>
+                        </div>
+                   
+                    </form>
+                {% endif %}
+
+                {% if class_course_form and student %}
+                    <h2 class="text-center">Assign Class and Course for {{ student.name }}</h2>
+                    <form method="post" enctype="multipart/form-data">
+                      <div class="card-body">
+                        <div class="form-group">
+  
+                        {% csrf_token %}
+                        {{ class_course_form|crispy }}
+                        
+                        <input type="hidden" name="student_id" value="{{ student.id }}">
+                        <button type="submit" class="btn btn-sm btn-primary" name="class_course_form">{{ button }}</button>
+                        <button type="reset" class="btn btn-sm btn-dark"  onclick="self.history.back()"><i class="fa fa-backward"></i> Kansela</button>
+                      </div>
+                    </div>
+                    </form>
+                {% endif %}
+
           </div>
           </div>
           <!-- /.card -->

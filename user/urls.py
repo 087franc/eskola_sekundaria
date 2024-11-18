@@ -11,7 +11,8 @@ urlpatterns = [
     path('users/delete/<str:id>', DeleteUsuario, name="delete-lista-usuario"),
 
      path('users/aumenta/bio', AumentaBio, name="aumenta-bio"),
-     path('users/hamos/bio/<str:id>', HamosProfile, name="hamos-profile"),
+     path('users/hadia/bio/<str:id>', HadiaaProfile, name="hadia-user-profile"),
+     path('users/hamos/bio/<str:id>', HamosProfile, name="hamos-user-profile"),
 
     path('users/profile', UserProfile, name="user-profile-detail"),
 ]

@@ -14,6 +14,13 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ['first_name', 'last_name', 'username','email', 'password1', 'password2']
     
 class FormBio(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        # Expecting a student_id to filter the queryset
+        user_id = kwargs.pop('user_id', None)
+        super().__init__(*args, **kwargs)
+        if user_id:
+            # Filter the student field to show only the recently created student
+            self.fields['user'].queryset = User.objects.filter(id=user_id)
     class Meta:
         model = Profile
         fields = '__all__'

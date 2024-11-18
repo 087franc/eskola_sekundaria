@@ -64,6 +64,7 @@ class Teacher(models.Model):
         ('Oecusse', 'Oecusse'),
         ('Viqueque', 'Viqueque'),
     ]
+    bio = models.TextField(default='')
     municipio = models.CharField(max_length=20, choices=municipio_choices, default='Hili Municipio')
     foto = models.ImageField(upload_to='professor', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -110,6 +111,7 @@ class Students(models.Model):
     naran = models.CharField(max_length=255)
     # materia = models.ManyToManyField(Subjects, related_name='students', null=True, blank=True) 
     data_moris = models.DateField(null=True)    
+    bio = models.TextField(default='')
     sexo = models.CharField(max_length=20, choices=GENDER_CHOICES, default='Choose Gender')
     no_telefone = models.CharField(max_length=15, null=True, unique=True)
     hela_fatin = models.CharField(max_length=255)
@@ -150,4 +152,10 @@ class KontrolaEstudanteMateria(models.Model):
 
     def __str__(self):
         return f"{self.estudante} - {self.kontrolumateria}"
-    
+
+class KontrolaProfessorMateria(models.Model):
+    professor = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    kontrolumateria = models.ForeignKey(KontroluMateria, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.professor} - {self.kontrolumateria}"
