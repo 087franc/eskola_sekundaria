@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'estudents',
     'user',
+    'professor',
+    'materia',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'estudents.middleware.GroupRequiredMiddleware',
     
 ]
 
@@ -142,7 +145,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+LOGIN_REDIRECT_URL = '/redirect/'
+LOGIN_URL = 'login'
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 

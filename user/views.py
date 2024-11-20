@@ -19,7 +19,18 @@ def Login(request):
         if user is not None:
             login(request, user)
             messages.success(request, "Ita boot Login Ho Susesu....")
-            return redirect('home')
+
+            # Check user's group and redirect accordingly
+            if user.groups.filter(name='admin').exists():
+                return redirect('admin_dashboard')
+            elif user.groups.filter(name='teachers').exists():
+                return redirect('teacher_dashboard')
+            elif user.groups.filter(name='students').exists():
+                return redirect('student_dashboard')
+            else:
+                messages.error(request, "Hare didiak! Grupo la hetan!")
+                return redirect('no_permission')  # Optional: redirect to a 'No Permission' page
+
         else:
             messages.error(request, "Username ou Password La los!, Favor hare didiak!")
     context = {

@@ -22,7 +22,11 @@ from estudents_manegaments import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('administrador/', include('estudents.urls')),
-    path('', include('user.urls')),
+    path('login/', include('user.urls')),
+    path('', include('estudents.public_urls')),
+    path('professor/', include('professor.urls')),
+    path('materia/', include('materia.urls')),
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

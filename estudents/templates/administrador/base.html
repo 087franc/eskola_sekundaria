@@ -27,7 +27,13 @@
     <!-- {% if user.groups.all.0.name == 'admin' %}  -->
     <!-- admin {% elif user.groups.all.0.name == 'estudante' %} -->
     <!-- estudante {% endif %} {% endif %}  -->
-    {% block konteudu %} {% endblock %} {% include 'administrador/footer.html' %} {% include 'administrador/sidebar.html' %}
+    {% block konteudu %} {% endblock %} {% include 'administrador/footer.html' %} {% if user.is_authenticated %} {% if user.groups.all.0.name == 'admin' %}
+    <!-- kari user group hanesan admin-->
+    {% include 'administrador/sidebar/sidebaradmin.html' %} {% elif user.groups.all.0.name == 'teachers' %}
+    <!-- kari user group hanesan professor-->
+    {% include 'administrador/sidebar/sidebarteacher.html' %} {% elif user.groups.all.0.name == 'students' %}
+    <!-- kari user group hanesan estudante-->
+    {% include 'administrador/sidebar/sidebarstudent.html' %} {% endif %} {% endif %}
 
     <script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
     <script src="{% static 'assets/plugins/chart.js/Chart.min.js'%}"></script>
