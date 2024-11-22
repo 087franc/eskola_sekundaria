@@ -1,4 +1,5 @@
 # middleware.py
+from django.contrib import messages
 from django.shortcuts import redirect
 
 class GroupRequiredMiddleware:
@@ -14,4 +15,5 @@ class GroupRequiredMiddleware:
                 return redirect('no_permission')
             if request.path.startswith('/student/') and not request.user.groups.filter(name='students').exists():
                 return redirect('no_permission')
+    
         return self.get_response(request)

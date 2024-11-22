@@ -9,4 +9,8 @@ urlpatterns = [
     path('lista-materia/hadia/<str:id>', ListaMateriaHadia, name="hadia-materia"),
     path('lista-materia/delete/<str:id>', ListaMateriaDelete, name="delete-materia"),
 
+    
+    path('estudante/lista-materia/', DadusMateria, name="lista-materia-estudante"),
+
+
 ]

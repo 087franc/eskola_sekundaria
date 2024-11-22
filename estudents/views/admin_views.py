@@ -287,9 +287,10 @@ def login_redirect_view(request):
 
 # views.py
 from django.shortcuts import render
-from estudents.decorators import group_required
+from user.decorators import allowed_users
 
-@group_required('admin')
+@login_required
+@allowed_users(allowed_roles=['admin'])
 def admin_dashboard(request):
     sexo_mane = Students.objects.filter(sexo='Mane').count()
     sexo_feto = Students.objects.filter(sexo='Feto').count()
@@ -324,7 +325,8 @@ def admin_dashboard(request):
 
 
 
-@group_required('students')
+@login_required
+@allowed_users(allowed_roles=['students'])
 def student_dashboard(request):
     profile = get_object_or_404(Profile, user=request.user)
     context = {        
@@ -335,8 +337,3 @@ def student_dashboard(request):
 def no_permission(request):
     return render(request, 'administrador/no_permission.html', status=403)
 
-# dadus estudante
-@group_required('students')
-def DadusMateria(request):
-    materia = KontroluMateria.objects.filter()
-    return render(request, 'estudante/dadus-materia.html')

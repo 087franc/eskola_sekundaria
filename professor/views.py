@@ -1,7 +1,7 @@
 import os
 from django.shortcuts import get_object_or_404, render,redirect
 
-from estudents.decorators import group_required
+from user.decorators import allowed_users
 from estudents.forms import *
 from estudents.models import *
 from django.contrib import messages
@@ -83,7 +83,8 @@ def DetailProfessor(request,id):
     return render(request, 'professor/detail-professor.html',context)
 
 
-@group_required('teachers')
+@login_required
+@allowed_users(allowed_roles=['teachers'])
 def teacher_dashboard(request):    
     profile = get_object_or_404(Profile, user=request.user)
 

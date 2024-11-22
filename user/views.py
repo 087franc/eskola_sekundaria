@@ -4,6 +4,8 @@ from django.contrib import messages
 from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
+
+from user.decorators import allowed_users
 from .forms import *
 from .models import *
 from django.contrib.auth.decorators import login_required
@@ -58,15 +60,19 @@ def Usuario(request):
 
 
 @login_required
-def register(request):    
+@allowed_users(allowed_roles=['admin'])
+def register(request):
     if request.method == 'POST':
         if 'user_form' in request.POST:
             user_form = CustomUserCreationForm(request.POST)
+            # estudante = request.POST.get('estudante')
             if user_form.is_valid():
                 user = user_form.save()  # Log in the user after registrati
                 profile_form = FormBio(user_id=user.id)
+                # dataEstudante = Students.objects.get(id=estudante)
+                # UserEstudante.objects.create(user=user,estudante=dataEstudante)
             return render(request, 'users/formulario-user.html', {
-                    'user_form': None,  # Hide the student form
+                    'user_form': None,  # Hide the user form
                     'profile_form': profile_form,
                     'button': "Aumenta",
                     'title': "Formulario Aumenta Dadus Usuario",
@@ -86,7 +92,7 @@ def register(request):
         user_form = CustomUserCreationForm()
         profile_form = FormBio()
     return render(request, 'users/formulario-user.html', {
-                    'user_form': user_form,  # Hide the student form                   
+                    'user_form': user_form, # Hide the student form                   
                     'button': "Aumenta",
                     'title': "Formulario Aumenta Dadus Usuario",
                         })
@@ -95,17 +101,7 @@ def register(request):
 # form = CustomUserCreationForm()
 #     return render (request, 'users/formulario-user.html',{'form':form,'title':"Formulario Aumenta Dadus Usuario", 'page':"Usuario",'button':"Aumenta"})
 
-@login_required
-def AumentaBio(request):    
-    if request.method == 'POST':
-        form = FormBio(request.POST)
-        if form.is_valid():
-            form.save()  
-            messages.success(request, "Dadus Profile Aumenta Ho Susesu!")
-            return redirect('lista-usuario')  # Redirect to the desired page after registration
-    else:
-        form = FormBio()
-    return render (request, 'users/formulario-user.html',{'form':form,'title':"Formulario Hadia Dadus Estudante", 'page':"Usuario",'button':"Aumenta"})
+
 
 def HadiaaProfile(request,id):
     data = Profile.objects.get(id=id)

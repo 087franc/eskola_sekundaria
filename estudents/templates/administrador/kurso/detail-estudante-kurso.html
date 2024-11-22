@@ -70,49 +70,115 @@
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-sm-12">
-                    <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
-                      <thead>
-                        <tr role="row">
-                          <th>No</th>
-                          <th>Naran Klase</th>
-                          <th>Ano Lectivo</th>
-                          <th>Aksaun</th>
-                        </tr>
-                      </thead>
-
-                      <tbody>
-                        {% for data in klase %}
-                        <tr>
-                          <td>{{ forloop.counter }}</td>
-                          <td><a href="{% url 'detail-estudante-klase' kurso.id data.klase.id  %}">{{ data.klase.naran_klase }} </a></td>
-                          <td>{{ data.tinan.tinan }}</td>
-
-                          <td>
-                            <a href="{% url 'detail-estudante-klase' kurso.id data.klase.id %}" class="btn-sm btn-outline-info">Detailhu</a>
-                          </td>
-                        </tr>
-                        {% endfor %}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-12 col-md-5"><div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div>
-                  <div class="col-sm-12 col-md-7">
-                    <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
-                      <ul class="pagination">
-                        <li class="paginate_button page-item previous disabled" id="example1_previous"><a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
-                        <li class="paginate_button page-item active"><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
-                        <li class="paginate_button page-item"><a href="#" aria-controls="example1" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
-                        <li class="paginate_button page-item"><a href="#" aria-controls="example1" data-dt-idx="3" tabindex="0" class="page-link">3</a></li>
-                        <li class="paginate_button page-item"><a href="#" aria-controls="example1" data-dt-idx="4" tabindex="0" class="page-link">4</a></li>
-                        <li class="paginate_button page-item"><a href="#" aria-controls="example1" data-dt-idx="5" tabindex="0" class="page-link">5</a></li>
-                        <li class="paginate_button page-item"><a href="#" aria-controls="example1" data-dt-idx="6" tabindex="0" class="page-link">6</a></li>
-                        <li class="paginate_button page-item next" id="example1_next"><a href="#" aria-controls="example1" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
+                <div class="col-md-9">
+                  <div class="card">
+                    <div class="card-header p-2">
+                      <ul class="nav nav-pills">
+                        <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">2021</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">2022</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">2023</a></li>
                       </ul>
                     </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                      <div class="tab-content">
+                        <div class="active tab-pane" id="activity">
+                          <!-- Post -->
+                          <div class="tabela">
+                            <table class="table table-hover">
+                              <thead>
+                                <tr role="row">
+                                  <th>No</th>
+                                  <th>Naran Klase</th>
+                                  <th>Tinan 2021</th>
+                                  <th>Aksaun</th>
+                                </tr>
+                              </thead>
+                            
+                              <tbody>
+                                {% for data in klase %}
+                                <tr>
+                                  <td>{{ forloop.counter }}</td>
+                                  <td><a href="{% url 'detail-estudante-klase' kurso.id data.klase.id  %}">{{ data.klase.naran_klase }} </a></td>
+                                  <td>{{ data.tinan.tinan }}</td>
+                            
+                                  <td>
+                                    <a href="{% url 'detail-estudante-klase' kurso.id data.klase.id %}" class="btn-sm btn-outline-info">Detailhu</a>
+                                  </td>
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <!-- /.tab-pane -->
+                        <div class="tab-pane" id="timeline">
+                          <!-- The timeline -->
+                          <div class="tabela">
+                            <table class="table table-hover">
+                              <thead>
+                                <tr role="row">
+                                  <th>No</th>
+                                  <th>Naran Klase</th>
+                                  <th>Tinan 2022</th>
+                                  <th>Aksaun</th>
+                                </tr>
+                              </thead>
+                            
+                              <tbody>
+                                {% for data in klase %}
+                                <tr>
+                                  <td>{{ forloop.counter }}</td>
+                                  <td><a href="{% url 'detail-estudante-klase' kurso.id data.klase.id  %}">{{ data.klase.naran_klase }} </a></td>
+                                  <td>{{ data.tinan.tinan }}</td>
+                            
+                                  <td>
+                                    <a href="{% url 'detail-estudante-klase' kurso.id data.klase.id %}" class="btn-sm btn-outline-info">Detailhu</a>
+                                  </td>
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <!-- /.tab-pane -->
+      
+                        <div class="tab-pane" id="settings">
+                          <div class="tabela">
+                            <table class="table table-hover">
+                              <thead>
+                                <tr role="row">
+                                  <th>No</th>
+                                  <th>Naran Klase</th>
+                                  <th>Tinan 2023</th>
+                                  <th>Aksaun</th>
+                                </tr>
+                              </thead>
+                            
+                              <tbody>
+                                {% for data in klase %}
+                                <tr>
+                                  <td>{{ forloop.counter }}</td>
+                                  <td><a href="{% url 'detail-estudante-klase' kurso.id data.klase.id  %}">{{ data.klase.naran_klase }} </a></td>
+                                  <td>{{ data.tinan.tinan }}</td>
+                            
+                                  <td>
+                                    <a href="{% url 'detail-estudante-klase' kurso.id data.klase.id %}" class="btn-sm btn-outline-info">Detailhu</a>
+                                  </td>
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <!-- /.tab-pane -->
+                      </div>
+                      <!-- /.tab-content -->
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+                  <!-- /.nav-tabs-custom -->
+                </div>
                   </div>
                 </div>
               </div>
@@ -147,7 +213,12 @@
     });
   </script> -->
   <!-- ./wrapper -->
-  <script src="{% static 'assets/plugins/jquery/jquery.min.js'%}"></script>
+  {% block scripts %}
+  <script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
   <script src="{% static 'assets/dist/js/adminlte.min.js' %}"></script>
+  {% endblock %}
 </div>
 {% endblock %}
+
+

@@ -11,7 +11,7 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username','email', 'password1', 'password2']
+        fields = ['first_name', 'last_name', 'username','email','password1', 'password2', 'groups']
     
 class FormBio(forms.ModelForm):
     def __init__(self, *args, **kwargs):

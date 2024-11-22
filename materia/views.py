@@ -3,6 +3,10 @@ from estudents.forms import *
 from estudents.models import *
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from user.models import UserEstudante
+
+from user.decorators import allowed_users
 # Create your views here.
 # views for subjects 
 @login_required
@@ -58,3 +62,25 @@ def ListaMateriaDelete(request,id):
     data.delete()
     messages.success(request, f'Dadus {data.naran_materia} Hamos ho Susesu')
     return redirect('lista-materia')
+
+# dadus estudante
+@login_required
+@allowed_users(allowed_roles=['students'])
+def DadusMateria(request):
+    user = UserEstudante.objects.get(user=request.user)
+
+    klasseEstudante = KlaseEstudante.objects.filter(estudante=user.estudante)
+    klasseAtivu = KlaseEstudante.objects.filter(estudante=user.estudante,estado="ativu").last()
+    print("klasseEstudante:",klasseEstudante)
+    print("klasseAtivu:",klasseAtivu)
+    materiaKlasseAtivu = KontroluMateria.objects.filter(controlukursuklase=klasseAtivu.controluestudante)
+    print("materiaKlasseAtivu:",materiaKlasseAtivu)
+    print("user:",user)
+
+    context = {
+        'title': f"Dadus Materia - {user.estudante.naran}",
+        'klasseEstudante': klasseEstudante,
+        'materiaKlasseAtivu': materiaKlasseAtivu,
+        # 'button': "Hadia"
+    }
+    return render(request, 'estudante/dadus-materia.html',context)

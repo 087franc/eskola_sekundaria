@@ -45,8 +45,6 @@ urlpatterns = [
 
 
     path('student/dashboard/', student_dashboard, name='student_dashboard'),    
-    path('estudante/lista-materia/', DadusMateria, name="lista-materia-estudante"),
-
 
     path('no-permission/', no_permission, name='no_permission'),
 ]
